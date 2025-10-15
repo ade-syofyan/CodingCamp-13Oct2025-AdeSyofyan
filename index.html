@@ -1,12 +1,160 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-    <p>This is a sample HTML document.</p>
-</body>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>To-Do List</h1>
+        <p class="app__subtitle">
+          Kelola tugas harian, simpan otomatis di peramban Anda.
+        </p>
+      </header>
+
+      <section class="card card--list">
+        <div class="card__header">
+          <h2 class="card__title">Daftar Tugas</h2>
+          <div class="card__header-actions">
+            <p id="counter" class="counter" aria-live="polite"></p>
+          </div>
+        </div>
+        <div
+          id="add-task-container"
+          style="margin-top: 4px; margin-bottom: 20px"
+        >
+          <button
+            id="add-task-btn"
+            type="button"
+            class="button button--primary"
+          >
+            <i data-lucide="plus"></i> Tambah Tugas
+          </button>
+        </div>
+        <div
+          class="filters"
+          role="region"
+          aria-label="Filter daftar tugas"
+          style="margin-top: 12px; margin-bottom: 20px"
+        >
+          <div class="filters__group">
+            <label for="statusFilter">Status</label>
+            <select id="statusFilter">
+              <option value="all">Semua</option>
+              <option value="active">Aktif</option>
+              <option value="done">Selesai</option>
+            </select>
+          </div>
+          <div class="filters__group">
+            <label for="search">Cari</label>
+            <input id="search" type="search" placeholder="Cari judul tugas" />
+          </div>
+          <div class="filters__group filters__group--compact">
+            <label for="dateFrom">Dari</label>
+            <input id="dateFrom" type="date" />
+          </div>
+          <div class="filters__group filters__group--compact">
+            <label for="dateTo">Sampai</label>
+            <input id="dateTo" type="date" />
+          </div>
+          <div class="filters__group filters__group--actions">
+            <button
+              id="clearFilters"
+              type="button"
+              class="button button--ghost"
+            >
+              <i data-lucide="rotate-cw"></i> Atur Ulang
+            </button>
+          </div>
+        </div>
+        <hr
+          style="
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0 0 20px;
+          "
+        />
+        <p id="empty-state" class="empty-state" hidden>Belum ada tugas.</p>
+        <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <div id="task-modal" class="modal" hidden>
+      <div class="modal__backdrop" data-action="close-modal"></div>
+      <div
+        class="modal__content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="task-modal-title"
+      >
+        <div class="modal__header">
+          <h3 id="task-modal-title" class="modal__title"></h3>
+          <button
+            class="modal__close-btn"
+            data-action="close-modal"
+            aria-label="Tutup modal"
+          >
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="modal__body">
+          <form id="task-form" class="form" novalidate>
+            <input type="hidden" id="task-id" />
+            <div class="form__group">
+              <input
+                id="task-title"
+                name="task-title"
+                type="text"
+                placeholder=" "
+                required
+              />
+              <label for="task-title"
+                >Judul Tugas
+                <span aria-hidden="true" class="required">*</span></label
+              >
+            </div>
+            <div class="form__group">
+              <input
+                id="task-dueDate"
+                name="task-dueDate"
+                type="date"
+                required
+              />
+              <label for="task-dueDate"
+                >Tanggal Jatuh Tempo<span aria-hidden="true" class="required"
+                  >*</span
+                ></label
+              >
+            </div>
+            <p id="task-form-message" class="form__message"></p>
+          </form>
+        </div>
+        <div class="modal__footer">
+          <button
+            type="button"
+            class="button button--ghost"
+            data-action="close-modal"
+          >
+            Batal
+          </button>
+          <button
+            id="task-modal-save"
+            type="submit"
+            form="task-form"
+            class="button button--primary"
+          >
+            <!-- Text and icon will be set by JS -->
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
